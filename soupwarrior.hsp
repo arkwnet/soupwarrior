@@ -1,0 +1,9 @@
+#include "hsp3utf.as"
+screen 0, 640, 480, 0, 20, 20
+title "SoupWarrior"
+
+*main
+	redraw 0
+	redraw 1
+	await 1000 / 30
+	goto *main
