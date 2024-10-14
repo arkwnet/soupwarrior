@@ -2,8 +2,25 @@
 screen 0, 640, 480, 0, 20, 20
 title "SoupWarrior"
 
-*main
-	redraw 0
-	redraw 1
-	await 1000 / 30
-	goto *main
+exist "swoutput.hsp"
+if strsize >= 0 : delete "swoutput.hsp"
+
+sdim list, 32000
+dirlist list, "*.hsp", 3
+sdim source, 1000 * 2000
+notesel list
+max = notemax
+repeat max
+	notesel list
+	sdim filename, 1000
+	noteget filename, cnt
+	sdim temp, 1000 * 1000
+	notesel temp
+	noteload filename
+	source = source + "\n" + temp
+	await 1
+loop
+notesel source
+notesave "swoutput.hsp"
+
+end
