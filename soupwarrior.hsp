@@ -5,6 +5,22 @@ title "SoupWarrior"
 exist "swoutput.hsp"
 if strsize >= 0 : delete "swoutput.hsp"
 
+config_hspc_path = ""
+exist ".swconfig"
+if strsize >= 0 {
+	sdim source, 32000
+	notesel source
+	noteload ".swconfig"
+	repeat notemax
+		sdim temp, 1000
+		noteget temp0, cnt
+		split temp0, "=", temp1, temp2
+		if temp1 = "HSPC_PATH" : config_hspc_path = temp2
+	loop
+}
+
+cmdline = dir_cmdline
+if cmdline = "" : cmdline = "-CiR"
 sdim list, 32000
 dirlist list, "*.hsp", 3
 sdim source, 1000 * 2000
@@ -14,13 +30,17 @@ repeat max
 	notesel list
 	sdim filename, 1000
 	noteget filename, cnt
-	sdim temp, 1000 * 1000
-	notesel temp
+	sdim temp0, 1000 * 1000
+	notesel temp0
 	noteload filename
-	source = source + "\n" + temp
+	source = source + "\n" + temp0
 	await 1
 loop
 notesel source
 notesave "swoutput.hsp"
+
+if config_hspc_path != "" {
+	exec config_hspc_path + " " + cmdline + " swoutput.hsp"
+}
 
 end
