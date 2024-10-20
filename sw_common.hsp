@@ -1,0 +1,7 @@
+#module
+
+#defcfunc _strrep var p1
+	strrep p1, "\"", ""
+	return p1
+
+#global

@@ -1,4 +1,5 @@
 #include "hsp3utf.as"
+#include "sw_common.hsp"
 screen 0, 640, 480, 0, 20, 20
 title "SoupWarrior"
 
@@ -6,6 +7,7 @@ exist "swoutput.hsp"
 if strsize >= 0 : delete "swoutput.hsp"
 
 config_hspc_path = ""
+config_hspc_option = ""
 exist ".swconfig"
 if strsize >= 0 {
 	sdim source, 32000
@@ -16,11 +18,20 @@ if strsize >= 0 {
 		noteget temp0, cnt
 		split temp0, "=", temp1, temp2
 		if temp1 = "HSPC_PATH" : config_hspc_path = temp2
+		if temp1 = "HSPC_OPTION" {
+			config_hspc_option = _strrep(temp2)
+		}
 	loop
 }
 
 cmdline = dir_cmdline
-if cmdline = "" : cmdline = "-CiR"
+if cmdline = "" {
+	if config_hspc_option != "" {
+		cmdline = config_hspc_option
+	} else {
+		cmdline = "-CiR"
+	}
+}
 sdim list, 32000
 dirlist list, "*.hsp", 3
 sdim source, 1000 * 2000
