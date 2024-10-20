@@ -32,19 +32,42 @@ if cmdline = "" {
 		cmdline = "-CiR"
 	}
 }
+
+exist ".swignore"
+if strsize >= 0 {
+	sdim ignore, 32000
+	notesel ignore
+	noteload ".swignore"
+	imax = notemax
+}
+
 sdim list, 32000
 dirlist list, "*.hsp", 3
 sdim source, 1000 * 2000
 notesel list
 max = notemax
+i = 0
 repeat max
+	no_merge = 0
 	notesel list
-	sdim filename, 1000
-	noteget filename, cnt
-	sdim temp0, 1000 * 1000
-	notesel temp0
-	noteload filename
-	source = source + "\n" + temp0
+	sdim filename0, 1000
+	noteget filename0, i
+	notesel ignore
+	j = 0
+	repeat imax
+		sdim filename1, 1000
+		noteget filename1, j
+		if filename0 = filename1 : no_merge = 1
+		j++
+		await 1
+	loop
+	if no_merge = 0 {
+		sdim temp0, 1000 * 1000
+		notesel temp0
+		noteload filename0
+		source = source + "\n" + temp0
+	}
+	i++
 	await 1
 loop
 notesel source
