@@ -1,7 +1,11 @@
 #include "hsp3utf.as"
 #include "sw_common.hsp"
-screen 0, 640, 480, 0, 20, 20
+#epack "splash.png"
+buffer 1 : picload "splash.png"
+screen 0, 640, 320, 0, 20, 20
 title "SoupWarrior"
+pos 0, 0 : gcopy 1, 0, 0, 640, 320
+message "準備中"
 
 exist "swoutput.hsp"
 if strsize >= 0 : delete "swoutput.hsp"
@@ -10,6 +14,7 @@ config_hspc_path = ""
 config_hspc_option = ""
 exist ".swconfig"
 if strsize >= 0 {
+	message ".swconfig ファイルを読み込み中"
 	sdim source, 32000
 	notesel source
 	noteload ".swconfig"
@@ -35,6 +40,7 @@ if cmdline = "" {
 
 exist ".swignore"
 if strsize >= 0 {
+	message ".swignore ファイルを読み込み中"
 	sdim ignore, 32000
 	notesel ignore
 	noteload ".swignore"
@@ -43,6 +49,7 @@ if strsize >= 0 {
 
 exist ".swlist"
 if strsize >= 0 {
+	message ".swlist ファイルを読み込み中"
 	sdim swlist, 32000
 	notesel swlist
 	noteload ".swlist"
@@ -51,6 +58,7 @@ if strsize >= 0 {
 	lmax = -1
 }
 
+message "プログラムリストを作成中"
 sdim source, 1000 * 2000
 sdim list, 32000
 dirlist list, "*.hsp", 3
@@ -64,6 +72,7 @@ if lmax >= 0 {
 		sdim filename0, 1000
 		noteget filename0, i
 		if filename0 != "" {
+			message filename0 + " を結合中"
 			sdim temp0, 1000 * 1000
 			notesel temp0
 			noteload filename0
@@ -103,6 +112,7 @@ repeat max
 			await 1
 		loop
 		if no_merge = 0 {
+			message filename0 + " を結合中"
 			sdim temp0, 1000 * 1000
 			notesel temp0
 			noteload filename0
@@ -112,10 +122,12 @@ repeat max
 	i++
 	await 1
 loop
+message "結合したソースコードを保存中"
 notesel source
 notesave "swoutput.hsp"
 
 if config_hspc_path != "" {
+	message "作業終了。hspcを実行します…"
 	exec config_hspc_path + " " + cmdline + " swoutput.hsp"
 }
 
