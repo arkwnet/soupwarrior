@@ -2,7 +2,6 @@
 *.exe
 test
 .swconfig
-.swignore
 hsptmp
 obj
 packfile

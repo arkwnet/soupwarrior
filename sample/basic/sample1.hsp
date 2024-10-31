@@ -1,0 +1,4 @@
+mes "Hello, world! (sample1)"
+gosub *sayhello2
+gosub *sayhello3
+stop

@@ -1,0 +1,5 @@
+*sayhello3
+	repeat 5
+		mes "Hello, world! (sample3)"
+	loop
+	return
