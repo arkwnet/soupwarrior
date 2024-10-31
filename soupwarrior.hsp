@@ -1,11 +1,19 @@
 #include "hsp3utf.as"
 #include "sw_common.hsp"
 #epack "splash.png"
+#packopt hide 1
+#packopt icon "icon.ico"
+
 buffer 1 : picload "splash.png"
 screen 0, 640, 320, 0, 20, 20
 title "SoupWarrior"
 pos 0, 0 : gcopy 1, 0, 0, 640, 320
+pos 6, 4
+color 158, 158, 158
+font "Meiryo UI", 14
+mes "Version 1.0.0"
 message "準備中"
+await 1000
 
 exist "swoutput.hsp"
 if strsize >= 0 : delete "swoutput.hsp"
